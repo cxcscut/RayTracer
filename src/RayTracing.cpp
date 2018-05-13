@@ -13,6 +13,7 @@ static vector<float> pixels;
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <iostream>
 
 void display(void)
 {
@@ -41,7 +42,7 @@ int main(int argc, char* argv[])
 	glRasterPos3f(LightOrigin.x,LightOrigin.y,LightOrigin.z);
 
 	Sphere *pSphere = new Sphere(vec3(0,0,-1),0.5);
-	Sphere *pSphere2 = new Sphere(vec3(0,100.5,-1),100);
+	Sphere *pSphere2 = new Sphere(vec3(0,100.5,-100.5),100);
 
 	list.pObjects.push_back(pSphere);
 	list.pObjects.push_back(pSphere2);
@@ -51,6 +52,12 @@ int main(int argc, char* argv[])
 		{
 			float u = float(i) / float(ImageWidth);
 			float v = float(j) / float(ImageHeight);
+
+			if (i == 400 && j == 100)
+			{
+				cout << "1";
+			}
+
 			RayClass r(LightOrigin,bottom_left + u * horizontal + v * vertical);
 			vec3 color = r.color(list);
 

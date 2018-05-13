@@ -150,7 +150,6 @@
     <ClInclude Include="Hitable.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="RayClass.h" />
-    <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Hitable.cpp" />
