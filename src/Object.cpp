@@ -33,5 +33,7 @@ bool Sphere::hit_object(RayClass *pr, float t_min, float t_max, HitInfo &info) {
 			info.n = (info.p - center) / radius;
 			return true;
 		}
+
+		return false;
 	}
 }

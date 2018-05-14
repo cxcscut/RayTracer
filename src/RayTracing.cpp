@@ -40,7 +40,7 @@ int main(int argc, char* argv[])
 	glRasterPos3f(camera.origin.x, camera.origin.y, camera.origin.z);
 
 	Sphere *pSphere = new Sphere(vec3(0,0,-1),0.5);
-	Sphere *pSphere2 = new Sphere(vec3(0,100.5,-100.5),100);
+	Sphere *pSphere2 = new Sphere(vec3(0,100.5,-1),100);
 
 	list.pObjects.push_back(pSphere);
 	list.pObjects.push_back(pSphere2);
@@ -54,9 +54,9 @@ int main(int argc, char* argv[])
 			RayClass r = camera.getRay(u,v);
 			vec3 color = r.color(list);
 
-			pixels.push_back(color.r);
-			pixels.push_back(color.g);
-			pixels.push_back(color.b);
+			pixels.push_back(sqrt(color.r));
+			pixels.push_back(sqrt(color.g));
+			pixels.push_back(sqrt(color.b));
 		}
 
 	delete pSphere;

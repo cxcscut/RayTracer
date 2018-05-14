@@ -15,7 +15,9 @@ public:
 
 	vec3 point_at(float t);
 
-	vec3 color(Hit_List list);
+	vec3 color(Hit_List list,int depth = 0);
+
+	vec3 getReflectDirRandom(const vec3 &hit,const vec3 &normal);
 
 public:
 

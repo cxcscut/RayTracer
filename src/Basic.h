@@ -4,5 +4,9 @@
 #include <gl/glut.h>
 #include <glm/gtx/transform.hpp>
 #include <math.h>
+#include <random>
+#include <ctime>
+#include <iostream>
+
 using namespace glm;
 using namespace std;
