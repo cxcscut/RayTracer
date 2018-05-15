@@ -16,7 +16,7 @@ class Hit_List
 {
 public:
 
-	bool hit(RayClass *pr, float t_min, float t_max, HitInfo &info);
+	bool hit(const RayClass &pr, float t_min, float t_max, HitInfo &info, RayClass &scatter_ray, vec3 &atteunation);
 
 public:
 	vector<Object*> pObjects;

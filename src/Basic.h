@@ -7,6 +7,7 @@
 #include <random>
 #include <ctime>
 #include <iostream>
+#include <thread>
 
 using namespace glm;
 using namespace std;

@@ -8,9 +8,10 @@ class Camera {
 
 public :
 
-	Camera();
+	Camera(const vec3 pos, const vec3 &lookat, const vec3 &up,
+		float fov, float aspect);
 
-	RayClass getRay(float u, float v);
+	RayClass getRay(float u, float v) const;
 
 public:
 

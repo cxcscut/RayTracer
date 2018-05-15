@@ -1,14 +1,15 @@
 #include "RayClass.h"
 
-#define MAX_DEPTH 9
-#define ABSORBTION_FACTOR 0.3f
+#define MAX_DEPTH 50
+
+RayClass::RayClass() {}
 
 RayClass::RayClass(const vec3 _p, const vec3 _dir)
 	: p(_p), dir(_dir) {}
 
 RayClass::~RayClass() {}
 
-vec3 RayClass::point_at(float t) { return p + t*dir; }
+vec3 RayClass::point_at(float t) const { return p + t*dir; }
 
 vec3 RayClass::getReflectDirRandom(const vec3 &hit,const vec3 &normal)
 {
@@ -30,12 +31,15 @@ vec3 RayClass::getReflectDirRandom(const vec3 &hit,const vec3 &normal)
 
 vec3 RayClass::color(Hit_List list,int depth) {
 	HitInfo info;
+	RayClass scatter;
+	vec3 atteunation;
 
-	if (depth < MAX_DEPTH && list.hit(this, 0, numeric_limits<float>::max(), info))
+	if (depth < MAX_DEPTH && list.hit(*this, 0, numeric_limits<float>::max(), info, scatter, atteunation))
 	{
-		vec3 ReflectionDir = getReflectDirRandom(info.p,info.n);
-		RayClass Reflection(info.p, ReflectionDir);
-		return ABSORBTION_FACTOR * Reflection.color(list,depth+1);
+		if (dot(scatter.dir, info.n) > 0)
+			return atteunation * scatter.color(list, depth + 1);
+		else
+			return vec3(0,0,0);
 	}
 	else {
 		vec3 unit_dir = normalize(dir);
