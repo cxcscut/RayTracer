@@ -71,15 +71,27 @@ void renderProc(const Camera &camera, const Hit_List &list,int height_start, int
 
 int main(int argc, char* argv[])
 {
+	// TracingWithCPU(argc, argv);
+	// TracingWithGPU(argc, argv);
 
-	Camera camera(vec3(-2,-2,1),vec3(0,0,-1),vec3(0,1,0),90, float(ImageWidth)/float(ImageHeight));
+	return 0;
+}
+
+void TracingWithGPU(int argc, char* argv[])
+{
+
+}
+
+void TracingWithCPU(int argc, char* argv[])
+{
+	Camera camera(vec3(-2, -2, 1), vec3(0, 0, -1), vec3(0, 1, 0), 90, float(ImageWidth) / float(ImageHeight));
 	Hit_List list;
 
 	glRasterPos3f(camera.origin.x, camera.origin.y, camera.origin.z);
 
-	Sphere *pSphere1 = new Sphere(vec3(0, 0, -1), 0.5, new Lambertian(vec3(0.8,0.3,0.3)));
+	Sphere *pSphere1 = new Sphere(vec3(0, 0, -1), 0.5, new Lambertian(vec3(0.8, 0.3, 0.3)));
 	Sphere *pSphere2 = new Sphere(vec3(0, 100.5, -1), 100, new Lambertian(vec3(0.8, 0.8, 0.0)));
-	Sphere *pSphere3 = new Sphere(vec3(1, 0, -1), 0.5, new Metal(vec3(0.8,0.6,0.2)));
+	Sphere *pSphere3 = new Sphere(vec3(1, 0, -1), 0.5, new Metal(vec3(0.8, 0.6, 0.2)));
 	Sphere *pSphere4 = new Sphere(vec3(-1, 0, -1), 0.5, new Metal(vec3(0.8, 0.8, 0.8)));
 
 	list.pObjects.push_back(pSphere1);
@@ -91,13 +103,13 @@ int main(int argc, char* argv[])
 	std::default_random_engine generator(rd());
 	std::uniform_real_distribution<double> dis(-1.0, 1.0);
 
-	std::vector<float> subpixels1, subpixels2, subpixels3,subpixels4, subpixels5, subpixels6;
+	std::vector<float> subpixels1, subpixels2, subpixels3, subpixels4, subpixels5, subpixels6;
 
 	std::thread renderThread1(
 		renderProc,
 		std::cref(camera),
 		std::cref(list),
-		500,600,
+		500, 600,
 		std::ref(subpixels1)
 	);
 
@@ -168,8 +180,6 @@ int main(int argc, char* argv[])
 	glutCreateWindow("Ray Tracing");
 	glutDisplayFunc(&display);
 	glutMainLoop();
-
-	return 0;
 }
 
 
