@@ -1,13 +1,13 @@
 ﻿  RayTracing.cpp
 RayTracing.cpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
-c:\users\39317\desktop\raytracer\raytracer\src\Hitable.h(9): warning C4099: “HitInfo”: 类型名称以前使用“class”现在使用的是“struct”
-  c:\users\39317\desktop\raytracer\raytracer\src\Hitable.h(9): note: 参见“HitInfo”的声明
-c:\users\39317\desktop\raytracer\raytracer\src\RayClass.h(5): warning C4099: “HitInfo”: 类型名称以前使用“struct”现在使用的是“class”
-  c:\users\39317\desktop\raytracer\raytracer\src\Hitable.h(9): note: 参见“HitInfo”的声明
+c:\users\39317\desktop\raytracer\raytracer\raytracing\Hitable.h(9): warning C4099: “HitInfo”: 类型名称以前使用“class”现在使用的是“struct”
+  c:\users\39317\desktop\raytracer\raytracer\raytracing\Hitable.h(9): note: 参见“HitInfo”的声明
+c:\users\39317\desktop\raytracer\raytracer\raytracing\RayClass.h(5): warning C4099: “HitInfo”: 类型名称以前使用“struct”现在使用的是“class”
+  c:\users\39317\desktop\raytracer\raytracer\raytracing\Hitable.h(9): note: 参见“HitInfo”的声明
   正在生成代码
-  3 of 375 functions ( 0.8%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    1 functions had inline decision re-evaluated but remain unchanged
+  369 of 376 functions (98.1%) were compiled, the rest were copied from previous compilation.
+    4 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
   已完成代码的生成
-  RayTracing.vcxproj -> C:\Users\39317\Desktop\RayTracer\RayTracer\src\Release\RayTracing.exe
-  RayTracing.vcxproj -> C:\Users\39317\Desktop\RayTracer\RayTracer\src\Release\RayTracing.pdb (Full PDB)
+  RayTracing.vcxproj -> C:\Users\39317\Desktop\RayTracer\RayTracer\Raytracing\Release\RayTracing.exe
+  RayTracing.vcxproj -> C:\Users\39317\Desktop\RayTracer\RayTracer\Raytracing\Release\RayTracing.pdb (Full PDB)

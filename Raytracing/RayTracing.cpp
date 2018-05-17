@@ -13,7 +13,7 @@ static const  GLint ImageHeight = 600;
 static vector<float> pixels;
 
 // 16x sampling for antialiasing
-static const int sample_num = 100;
+static const int sample_num = 32;
 ;
 
 #include <stdio.h>
@@ -67,14 +67,6 @@ void renderProc(const Camera &camera, const Hit_List &list,int height_start, int
 			subpixels.push_back(color.g);
 			subpixels.push_back(color.b);
 		}
-}
-
-int main(int argc, char* argv[])
-{
-	// TracingWithCPU(argc, argv);
-	// TracingWithGPU(argc, argv);
-
-	return 0;
 }
 
 void TracingWithGPU(int argc, char* argv[])
@@ -182,4 +174,10 @@ void TracingWithCPU(int argc, char* argv[])
 	glutMainLoop();
 }
 
+int main(int argc, char* argv[])
+{
+	TracingWithCPU(argc, argv);
+	// TracingWithGPU(argc, argv);
 
+	return 0;
+}
