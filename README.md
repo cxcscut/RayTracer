@@ -3,7 +3,7 @@
 Ray tracing implemented using C++ && OpenGL.
 
 ![Ray tracing](img/effect.png)
-
+![Ray tracing](img/effect2.png)
 ## Current Progress
 
 - [x] Multi-threading ray tracer
