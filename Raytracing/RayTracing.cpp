@@ -85,12 +85,16 @@ void TracingWithCPU(int argc, char* argv[])
 	Sphere *pSphere2 = new Sphere(vec3(0, 100.5, -1), 100, new Lambertian(vec3(0.8, 0.8, 0.0)));
 	Sphere *pSphere3 = new Sphere(vec3(1, 0, -1), 0.5, new Metal(vec3(0.8, 0.6, 0.2)));
 	Sphere *pSphere4 = new Sphere(vec3(-1, 0, -1), 0.5, new Metal(vec3(0.8, 0.8, 0.8)));
-
+	Sphere *pSphere5 = new Sphere(vec3(1, 0, -2), 0.5, new Metal(vec3(0.5, 0.5, 0.3)));
+	Sphere *pSphere6 = new Sphere(vec3(1, -0.5, -3.5), 1, new Metal(vec3(0.4, 0.6, 0.7)));
+	
 	list.pObjects.push_back(pSphere1);
 	list.pObjects.push_back(pSphere2);
 	list.pObjects.push_back(pSphere3);
 	list.pObjects.push_back(pSphere4);
-
+	list.pObjects.push_back(pSphere5);
+	list.pObjects.push_back(pSphere6);
+	
 	std::random_device rd;
 	std::default_random_engine generator(rd());
 	std::uniform_real_distribution<double> dis(-1.0, 1.0);
@@ -164,7 +168,9 @@ void TracingWithCPU(int argc, char* argv[])
 	delete pSphere2;
 	delete pSphere3;
 	delete pSphere4;
-
+	delete pSphere5;
+	delete pSphere6;
+	
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
 	glutInitWindowPosition(100, 100);
