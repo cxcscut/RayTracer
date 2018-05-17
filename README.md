@@ -2,7 +2,7 @@
 
 Ray tracing implemented using C++ && OpenGL.
 
-![Ray tracing](https://github.com/cxcscut/RayTracer/tree/master/img/effect.png)
+https://github.com/cxcscut/RayTracer/raw/master/img/effect.png
 
 ## Current Progress
 
