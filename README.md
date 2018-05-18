@@ -9,3 +9,6 @@ Ray tracing implemented using C++ && OpenGL.
 - [x] Multi-threading ray tracer
 - [ ] GPU version based on compute shader
 - [ ] Monte Carlo sampling
+- [ ] Fresnel reflection
+- [ ] Subsurface scattering
+- [ ] BRDF
