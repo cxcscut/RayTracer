@@ -2,8 +2,6 @@
 
 Ray tracing implemented using C++ && OpenGL.
 
-![Ray tracing](img/effect.png)
-![Ray tracing](img/effect2.png)
 ## Current Progress
 
 - [x] Multi-threading ray tracer
@@ -12,3 +10,9 @@ Ray tracing implemented using C++ && OpenGL.
 - [ ] Fresnel reflection
 - [ ] Subsurface scattering
 - [ ] BRDFs
+
+## Effect 
+
+![Ray tracing](img/effect.png)
+![Ray tracing](img/effect2.png)
+
