@@ -13,8 +13,10 @@ static const  GLint ImageHeight = 600;
 static vector<float> pixels;
 
 // 16x sampling for antialiasing
-static const int sample_num = 32;
-;
+static const int sample_num = 100;
+
+// Compute shader source code 
+static const std::string compute_shader_path = "RTComputeShader.glsl";
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -71,12 +73,101 @@ void renderProc(const Camera &camera, const Hit_List &list,int height_start, int
 
 void TracingWithGPU(int argc, char* argv[])
 {
+	glewExperimental = true;
+
+	if (glewInit() != GLEW_OK)
+	{
+		std::cout << "Failed in initializing glew" << std::endl;
+		return;
+	}
+
+	// Create compute shader
+	GLuint ComputeShaderID = glCreateShader(GL_COMPUTE_SHADER);
+
+	std::string ComputeShaderSource;
+	std::ifstream ComputeShaderStream(compute_shader_path, std::ios::in);
+	
+	// Read source code
+	if (ComputeShaderStream.is_open())
+	{
+		std::stringstream sstr;
+		sstr << ComputeShaderStream.rdbuf();
+		ComputeShaderSource = sstr.str();
+		ComputeShaderStream.close();
+	}
+	else
+	{
+		std::cout << "unable to open compute shader source code file" << std::endl;
+		return;
+	}
+
+	// Compile compute shader
+	char const *ComputeShaderSourcePointer = ComputeShaderSource.c_str();
+	glShaderSource(ComputeShaderID, 1, &ComputeShaderSourcePointer, nullptr);
+	glCompileShader(ComputeShaderID);
+
+	GLint res = 0;
+	int CompilationStatusInfoLength, LinkingStatusInfoLength;
+
+	// Check the compilation status
+	glGetShaderiv(ComputeShaderID, GL_COMPILE_STATUS, &res);
+	glGetShaderiv(ComputeShaderID, GL_INFO_LOG_LENGTH, &CompilationStatusInfoLength);
+
+	if (CompilationStatusInfoLength > 0) {
+		std::vector<char> CompilationErrorMsg(CompilationStatusInfoLength + 1);
+		glGetShaderInfoLog(ComputeShaderID, CompilationStatusInfoLength, nullptr,&CompilationErrorMsg.front());
+		std::cout << &CompilationErrorMsg.front() << std::endl;
+	}
+
+	// Link program
+	GLuint ProgramID = glCreateProgram();
+	glAttachShader(ProgramID, ComputeShaderID);
+	glLinkProgram(ProgramID);
+
+	// Check linking status
+	glGetProgramiv(ProgramID, GL_LINK_STATUS, &res);
+	glGetProgramiv(ProgramID, GL_INFO_LOG_LENGTH , &LinkingStatusInfoLength);
+
+	if (LinkingStatusInfoLength > 0)
+	{
+		std::vector<char> LinkingErrorMsg(CompilationStatusInfoLength + 1);
+		glGetShaderInfoLog(ComputeShaderID, CompilationStatusInfoLength, nullptr, &LinkingErrorMsg.front());
+		std::cout << &LinkingErrorMsg.front() << std::endl;
+	}
+
+	glUseProgram(ProgramID);
+
+	// Create texture for output image
+	GLuint _OutTexture;
+	glGenTextures(1, &_OutTexture);
+	glBindTexture(GL_TEXTURE_2D, _OutTexture);
+
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, ImageWidth, ImageHeight, 0 ,GL_RGB, GL_UNSIGNED_BYTE, &pixels.front());
+
+	glBindImageTexture(0, _OutTexture, 0, GL_FALSE, 0 ,GL_WRITE_ONLY, GL_RGB);
+
+	// Dispatch workload 
+	glDispatchCompute(1, ImageWidth, 1);
+	glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
+
+	glutInit(&argc, argv);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
+	glutInitWindowPosition(100, 100);
+	glutInitWindowSize(ImageWidth, ImageHeight);
+	glutCreateWindow("Ray Tracing");
+	glutDisplayFunc(&display);
+	glutMainLoop();
 
 }
 
 void TracingWithCPU(int argc, char* argv[])
 {
-	Camera camera(vec3(-2, -2, 1), vec3(0, 0, -1), vec3(0, 1, 0), 90, float(ImageWidth) / float(ImageHeight));
+	Camera camera(vec3(-2.5, -0.7, -3), vec3(0, 0, -1), vec3(0, 1, 0), 90, float(ImageWidth) / float(ImageHeight));
 	Hit_List list;
 
 	glRasterPos3f(camera.origin.x, camera.origin.y, camera.origin.z);
@@ -87,14 +178,14 @@ void TracingWithCPU(int argc, char* argv[])
 	Sphere *pSphere4 = new Sphere(vec3(-1, 0, -1), 0.5, new Metal(vec3(0.8, 0.8, 0.8)));
 	Sphere *pSphere5 = new Sphere(vec3(1, 0, -2), 0.5, new Metal(vec3(0.5, 0.5, 0.3)));
 	Sphere *pSphere6 = new Sphere(vec3(1, -0.5, -3.5), 1, new Metal(vec3(0.4, 0.6, 0.7)));
-	
+
 	list.pObjects.push_back(pSphere1);
 	list.pObjects.push_back(pSphere2);
 	list.pObjects.push_back(pSphere3);
 	list.pObjects.push_back(pSphere4);
 	list.pObjects.push_back(pSphere5);
 	list.pObjects.push_back(pSphere6);
-	
+
 	std::random_device rd;
 	std::default_random_engine generator(rd());
 	std::uniform_real_distribution<double> dis(-1.0, 1.0);
@@ -170,7 +261,7 @@ void TracingWithCPU(int argc, char* argv[])
 	delete pSphere4;
 	delete pSphere5;
 	delete pSphere6;
-	
+
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
 	glutInitWindowPosition(100, 100);
