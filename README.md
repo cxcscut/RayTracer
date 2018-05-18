@@ -11,4 +11,4 @@ Ray tracing implemented using C++ && OpenGL.
 - [ ] Monte Carlo sampling
 - [ ] Fresnel reflection
 - [ ] Subsurface scattering
-- [ ] BRDF
+- [ ] BRDFs
